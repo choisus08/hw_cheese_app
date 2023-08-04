@@ -7,12 +7,14 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const morgan = require('morgan');
 
+
 // DATABASE CONNECTION
 mongoose.connect(DATABASE_URL)
 mongoose.connection
     .on('open', () => console.log('You are now connected to mongoose'))
     .on('close', () => console.log('You are disconnected from mongoose'))
     .on('error', (error) => console.log(error))
+
 
 // MODELS
 const cheeseSchema = new mongoose.Schema({
@@ -23,7 +25,29 @@ const cheeseSchema = new mongoose.Schema({
 
 const Cheese = mongoose.model("Cheese", cheeseSchema);
 
+
 // MIDDLEWARE
-app.use(cors())
-app.use(morgan('dev'))
-app.use(express.json())
+app.use(cors());
+app.use(morgan('dev'));
+app.use(express.json());
+
+
+// ROUTES
+
+//INDEX
+app.get('/cheese', async (req, res) => {
+    try {
+        const cheese = await Cheese.find({});
+        res.json(cheese);
+    } catch {
+        res.status(400).json({error})
+    }
+})
+
+// test route
+app.get('/', (req, res) => {
+    res.json({hello: 'world'})
+});
+
+// LISTENER
+app.listen(PORT, () => console.log(`Listening on PORT ${PORT}`));
