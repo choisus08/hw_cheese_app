@@ -34,15 +34,27 @@ app.use(express.json());
 
 // ROUTES
 
-//INDEX
+//INDEX -GET
 app.get('/cheese', async (req, res) => {
     try {
         const cheese = await Cheese.find({});
         res.json(cheese);
-    } catch {
-        res.status(400).json({error})
+    } catch (error) {
+        res.status(400).json({error});
     }
-})
+});
+
+// CREATE -POST
+app.post('/cheese', async (req, res) => {
+    try {
+        const cheese = await Cheese.create(req.body);
+        res.json(cheese);
+    } catch (error) {
+        res.status(400).json({error});
+    }
+});
+
+
 
 // test route
 app.get('/', (req, res) => {
