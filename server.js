@@ -54,7 +54,15 @@ app.post('/cheese', async (req, res) => {
     }
 });
 
-
+// SHOW -GET 
+app.get('/cheese/:id', async (req, res) => {
+    try {  
+        const cheese = await Cheese.findById(req.params.id);
+        res.json(cheese);
+    } catch (error) {
+        res.status(400).json({error});
+    }
+});
 
 // test route
 app.get('/', (req, res) => {
