@@ -64,6 +64,16 @@ app.get('/cheese/:id', async (req, res) => {
     }
 });
 
+// UPDATE -PUT 
+app.put('/cheese/:id', async (req, res) => {
+    try {
+        const cheese = await Cheese.findByIdAndUpdate(req.params.id, req.body, {new: true});
+        res.json(cheese)
+    } catch (error) {
+        res.json({error})
+    }
+})
+
 // test route
 app.get('/', (req, res) => {
     res.json({hello: 'world'})
